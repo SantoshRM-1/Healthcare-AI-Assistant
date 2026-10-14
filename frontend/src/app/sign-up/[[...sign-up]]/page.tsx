@@ -1,0 +1,2 @@
+import { SignUp } from "@clerk/nextjs";
+export default function Page() { return <main className="grid min-h-screen place-items-center bg-[#f4f8ff] p-6"><div className="mb-6 text-center"><div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-blue-600 text-xl font-bold text-white">M</div><h1 className="text-2xl font-semibold">Create your account</h1><p className="mt-2 text-sm text-slate-500">A calmer place for healthcare conversations</p></div><SignUp routing="path" path="/sign-up" signInUrl="/sign-in" /></main>; }

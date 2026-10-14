@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+:root { --background: #f7faff; --foreground: #15243a; --muted: #728198; --line: #e8edf4; --blue: #3478e5; }
+* { box-sizing: border-box; }
+body { background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; }
+button { cursor: pointer; }
+.soft-scroll::-webkit-scrollbar { width: 5px; }
+.soft-scroll::-webkit-scrollbar-thumb { background: #d8e1ed; border-radius: 8px; }
