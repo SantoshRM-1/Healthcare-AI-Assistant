@@ -2,6 +2,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, Field
 
+from app.schemas.ai import Citation
+
 
 class VoiceTranscriptionResponse(BaseModel):
     session_id: UUID
@@ -13,8 +15,9 @@ class VoiceTranscriptionResponse(BaseModel):
 class HospitalRecommendationRequest(BaseModel):
     session_id: UUID
     city: str = Field(min_length=2, max_length=120)
-    region: str = Field(min_length=2, max_length=120)
-    location: str = Field(min_length=2, max_length=240)
+    region: str | None = Field(default=None, max_length=120)
+    location: str | None = Field(default=None, max_length=240)
+    postal_code: str | None = Field(default=None, max_length=16)
     condition: str | None = Field(default=None, max_length=500)
 
 
@@ -33,6 +36,7 @@ class HospitalResult(BaseModel):
 class HospitalRecommendationResponse(BaseModel):
     hospitals: list[HospitalResult]
     specialties: list[str]
+    sources: list[Citation] = Field(default_factory=list)
     disclaimer: str
 
 

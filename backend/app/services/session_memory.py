@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import UUID
 
 from sqlalchemy import select
@@ -57,9 +57,17 @@ async def merge_memory(session: AsyncSession, session_id: UUID, user_id: UUID, u
             data[key] = existing[-30:]
         elif value and key == "patient_name":
             data[key] = value
-        elif value and key == "last_topic":
-            data[key] = value[:500]
+        elif key == "reported_symptoms":
+            if isinstance(value, str) and value.strip():
+                previous = str(data.get(key, ""))
+                if value.casefold() not in previous.casefold():
+                    data[key] = f"{previous}; {value}".strip("; ")[-500:]
+        elif key in {"last_topic", "city", "region", "location", "pending_action", "last_hospital_question"}:
+            if value is None:
+                data.pop(key, None)
+            elif isinstance(value, str):
+                data[key] = value[:500]
     record.data = data
-    record.updated_at = datetime.now(timezone.utc)
+    record.updated_at = datetime.now(UTC)
     await session.commit()
     return data

@@ -1,0 +1,119 @@
+[
+  {
+    "id": "en-lab-hba1c",
+    "question": "Is my HbA1c high?",
+    "history": [],
+    "intent": "laboratory",
+    "language": "english",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "kn-lab-haemoglobin",
+    "question": "ನನ್ನ ಹಿಮೋಗ್ಲೋಬಿನ್ ಕಡಿಮೆಯಾಗಿದೆ",
+    "history": [],
+    "intent": "laboratory",
+    "language": "kannada",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "roman-lab-creatinine",
+    "question": "nanna creatinine jaasthi ide",
+    "history": [],
+    "intent": "laboratory",
+    "language": "kannada",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "mixed-lab-creatinine",
+    "question": "ನನ್ನ creatinine ಮಟ್ಟ high ಇದೆ",
+    "history": [],
+    "intent": "laboratory",
+    "language": "bilingual",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "en-food",
+    "question": "What foods should I avoid?",
+    "history": [],
+    "intent": "nutrition",
+    "language": "english",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "roman-food",
+    "question": "Nange yava food thinnabeku?",
+    "history": [],
+    "intent": "nutrition",
+    "language": "bilingual",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "en-prescription",
+    "question": "What does this prescription say?",
+    "history": [],
+    "intent": "prescription",
+    "language": "english",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "roman-symptom",
+    "question": "Nange jwara ide",
+    "history": [],
+    "intent": "symptoms",
+    "language": "kannada",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "en-hospital",
+    "question": "Can you suggest a hospital?",
+    "history": [],
+    "intent": "hospital",
+    "language": "english",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "kn-summary",
+    "question": "ನನ್ನ ವರದಿಯ ಸಾರಾಂಶ ನೀಡಿ",
+    "history": [],
+    "intent": "report_summary",
+    "language": "kannada",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "en-follow-up",
+    "question": "What does it mean?",
+    "history": [{"role": "user", "content": "My creatinine is 1.8 mg/dL"}],
+    "intent": "follow_up",
+    "language": "english",
+    "emergency": false,
+    "expected_source_documents": []
+  },
+  {
+    "id": "kn-emergency-breathing",
+    "question": "ನನಗೆ ಉಸಿರಾಡಲು ತುಂಬಾ ಕಷ್ಟವಾಗುತ್ತಿದೆ",
+    "history": [],
+    "intent": "symptoms",
+    "language": "kannada",
+    "emergency": true,
+    "expected_source_documents": []
+  },
+  {
+    "id": "roman-emergency-stroke",
+    "question": "mukha ondu kade vaalide mathanadakke agtilla",
+    "history": [],
+    "intent": "symptoms",
+    "language": "kannada",
+    "emergency": true,
+    "expected_source_documents": []
+  }
+]

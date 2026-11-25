@@ -5,7 +5,15 @@ export type Report = {
   file_type: string;
   file_size: number;
   processing_status: "pending" | "processing" | "completed" | "failed";
-  processing_stage: "queued" | "extracting_text" | "generating_embeddings" | "ready" | "failed";
+  processing_stage:
+    | "queued"
+    | "processing"
+    | "extracting_text"
+    | "generating_embeddings"
+    | "storing_vectors"
+    | "completed"
+    | "ready"
+    | "failed";
   upload_date: string;
 };
 

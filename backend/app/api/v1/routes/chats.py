@@ -1,10 +1,9 @@
-from uuid import UUID
 import logging
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from app.core.auth import Principal, get_principal
 from app.db.session import get_session
@@ -33,9 +32,8 @@ async def list_chats(principal: Principal = Depends(get_principal), session: Asy
 async def create_chat(payload: ChatCreate, principal: Principal = Depends(get_principal), session: AsyncSession = Depends(get_session)) -> ChatRead:
     stage = "start"
     logger.info(
-        "create_chat request clerk_user_id=%s payload=%s db_session_active=%s in_transaction=%s",
-        principal.clerk_id,
-        payload.model_dump(),
+        "create_chat request title_length=%d db_session_active=%s in_transaction=%s",
+        len(payload.title),
         session.is_active,
         session.in_transaction(),
     )
@@ -43,9 +41,7 @@ async def create_chat(payload: ChatCreate, principal: Principal = Depends(get_pr
         stage = "resolve_user"
         user = await get_or_create_user(session, principal)
         logger.info(
-            "create_chat user resolved clerk_user_id=%s db_user_id=%s db_session_active=%s in_transaction=%s",
-            principal.clerk_id,
-            user.id,
+            "create_chat user resolved db_session_active=%s in_transaction=%s",
             session.is_active,
             session.in_transaction(),
         )
@@ -54,18 +50,14 @@ async def create_chat(payload: ChatCreate, principal: Principal = Depends(get_pr
         chat = ChatSession(user_id=user.id, title=payload.title.strip())
         session.add(chat)
         logger.debug(
-            "create_chat added to unit-of-work clerk_user_id=%s db_user_id=%s title_length=%d",
-            principal.clerk_id,
-            user.id,
+            "create_chat added to unit-of-work title_length=%d",
             len(chat.title),
         )
 
         stage = "flush_chat_insert"
         await session.flush()
         logger.info(
-            "create_chat insert flushed clerk_user_id=%s db_user_id=%s chat_id=%s",
-            principal.clerk_id,
-            user.id,
+            "create_chat insert flushed chat_id=%s",
             chat.id,
         )
 
@@ -88,26 +80,20 @@ async def create_chat(payload: ChatCreate, principal: Principal = Depends(get_pr
 
         stage = "commit"
         logger.info(
-            "create_chat committing clerk_user_id=%s db_user_id=%s chat_id=%s in_transaction=%s",
-            principal.clerk_id,
-            user.id,
+            "create_chat committing chat_id=%s in_transaction=%s",
             chat.id,
             session.in_transaction(),
         )
         await session.commit()
         logger.info(
-            "create_chat committed clerk_user_id=%s db_user_id=%s chat_id=%s",
-            principal.clerk_id,
-            user.id,
+            "create_chat committed chat_id=%s",
             chat.id,
         )
         return response
     except Exception:
         logger.exception(
-            "create_chat failed stage=%s clerk_user_id=%s payload=%s db_session_active=%s in_transaction=%s",
+            "create_chat failed stage=%s db_session_active=%s in_transaction=%s",
             stage,
-            principal.clerk_id,
-            payload.model_dump(),
             session.is_active,
             session.in_transaction(),
         )
@@ -115,15 +101,13 @@ async def create_chat(payload: ChatCreate, principal: Principal = Depends(get_pr
             try:
                 await session.rollback()
                 logger.warning(
-                    "create_chat rolled back stage=%s clerk_user_id=%s",
+                    "create_chat rolled back stage=%s",
                     stage,
-                    principal.clerk_id,
                 )
             except Exception:
                 logger.exception(
-                    "create_chat rollback failed stage=%s clerk_user_id=%s",
+                    "create_chat rollback failed stage=%s",
                     stage,
-                    principal.clerk_id,
                 )
         raise
 

@@ -1,16 +1,16 @@
-import io
 import asyncio
+import io
 import logging
 import time
 import uuid
 from pathlib import Path
 from urllib.parse import quote
 
-import httpx
 import fitz
-from PIL import Image
+import httpx
 from fastapi import APIRouter, Depends, File, HTTPException, Query, Response, UploadFile, status
 from fastapi.responses import StreamingResponse
+from PIL import Image
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -19,10 +19,14 @@ from app.core.config import settings
 from app.db.session import get_session
 from app.models.uploaded_report import UploadedReport
 from app.repositories.users import get_or_create_user
-from app.schemas.report import ReportProcessingDebug, ReportRead, ReportSummary
 from app.schemas.ai import MedicalReportSummary, ReportSummaryResponse
+from app.schemas.report import ReportProcessingDebug, ReportRead, ReportSummary
 from app.services.chats import owned_chat
-from app.services.report_storage import create_private_download_url, delete_report_asset, upload_report
+from app.services.report_storage import (
+    create_private_download_url,
+    delete_report_asset,
+    upload_report,
+)
 from app.services.vector_store import delete_report_vectors
 
 logger = logging.getLogger(__name__)
@@ -107,7 +111,7 @@ async def upload(
     except Exception as exc:
         logger.exception("REPORT FAILED report_id=%s stage=cloudinary_upload", report_id)
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Report storage is temporarily unavailable") from exc
-    logger.info("REPORT CLOUDINARY UPLOADED report_id=%s public_id=%s", report_id, asset.get("public_id"))
+    logger.info("REPORT CLOUDINARY UPLOADED report_id=%s", report_id)
     logger.info("report_timing report_id=%s stage=cloudinary_upload bytes=%d seconds=%.3f", report_id, size, time.perf_counter() - cloudinary_started)
     original_name = Path(file.filename or f"report{suffix}").name
     original_name = "".join(ch for ch in original_name if ch.isprintable() and ch not in "/\\").strip()[:255] or f"report{suffix}"
@@ -134,9 +138,9 @@ async def upload(
         try:
             await delete_report_asset(public_id, resource_type)
         except Exception:
-            logger.exception("Could not clean up orphaned Cloudinary asset %s", public_id)
+            logger.exception("Could not clean up orphaned Cloudinary asset after database failure")
         raise
-    logger.info("REPORT CREATED report_id=%s user_id=%s session_id=%s file=%s", report.id, user.id, chat.id, report.file_name)
+    logger.info("REPORT CREATED report_id=%s", report.id)
     logger.info("REPORT QUEUED report_id=%s status=%s stage=%s commit_completed=true", report.id, report.processing_status, report.processing_stage)
     logger.info("report_timing report_id=%s stage=upload_total bytes=%d seconds=%.3f", report_id, size, time.perf_counter() - upload_started)
     return ReportSummary.model_validate(report)

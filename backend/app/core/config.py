@@ -45,6 +45,11 @@ class Settings(BaseSettings):
     email_reply_to: str | None = None
     hospital_max_results: int = 10
     export_font_path: str | None = None
+    knowledge_admin_clerk_ids: str = ""
+    knowledge_ingestion_max_attempts: int = 5
+    knowledge_max_document_size_mb: int = 20
+    knowledge_max_pdf_pages: int = 250
+    knowledge_default_jurisdiction: str = "IN"
 
     @field_validator("database_url")
     @classmethod

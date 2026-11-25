@@ -1,0 +1,535 @@
+{
+  "version": "1.0",
+  "review_status": "taxonomy_only_unverified_clinical_content",
+  "sectors": [
+    {
+      "id": 1,
+      "name": "Infectious Diseases",
+      "conditions": [
+        "Typhoid fever",
+        "Dengue",
+        "Malaria",
+        "Tuberculosis",
+        "COVID-19",
+        "Chikungunya",
+        "Cholera",
+        "Hepatitis A, B and C",
+        "Urinary tract infections",
+        "Food poisoning"
+      ],
+      "specialties": [
+        "Infectious disease specialist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 2,
+      "name": "Cardiology",
+      "conditions": [
+        "Coronary artery disease",
+        "Myocardial infarction",
+        "Heart failure",
+        "Arrhythmia",
+        "Hypertension",
+        "Cardiomyopathy",
+        "Heart valve disorders",
+        "Angina",
+        "Congenital heart defects",
+        "Pericarditis"
+      ],
+      "specialties": [
+        "Cardiologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 3,
+      "name": "Nephrology",
+      "conditions": [
+        "Chronic kidney disease",
+        "Acute kidney injury",
+        "Kidney stones",
+        "Kidney infections",
+        "Nephrotic syndrome",
+        "Glomerulonephritis",
+        "Polycystic kidney disease",
+        "Kidney failure",
+        "Proteinuria",
+        "Hydronephrosis"
+      ],
+      "specialties": [
+        "Nephrologist",
+        "Urologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 4,
+      "name": "Orthopedics",
+      "conditions": [
+        "Bone fractures",
+        "Osteoporosis",
+        "Osteoarthritis",
+        "Rheumatoid arthritis",
+        "Spinal disorders",
+        "Herniated disc",
+        "Scoliosis",
+        "Osteomyelitis",
+        "Ligament injuries",
+        "Joint dislocation"
+      ],
+      "specialties": [
+        "Orthopedist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 5,
+      "name": "Ophthalmology",
+      "conditions": [
+        "Cataracts",
+        "Glaucoma",
+        "Conjunctivitis",
+        "Diabetic retinopathy",
+        "Myopia",
+        "Hyperopia",
+        "Retinal detachment",
+        "Dry eye syndrome",
+        "Macular degeneration",
+        "Corneal ulcers"
+      ],
+      "specialties": [
+        "Ophthalmologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 6,
+      "name": "Ent",
+      "conditions": [
+        "Sinusitis",
+        "Allergic rhinitis",
+        "Nasal polyps",
+        "Deviated nasal septum",
+        "Tonsillitis",
+        "Otitis media",
+        "Hearing loss",
+        "Tinnitus",
+        "Laryngitis",
+        "Epistaxis"
+      ],
+      "specialties": [
+        "ENT specialist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 7,
+      "name": "Endocrinology",
+      "conditions": [
+        "Type 1 diabetes",
+        "Type 2 diabetes",
+        "Hypothyroidism",
+        "Hyperthyroidism",
+        "PCOS",
+        "Cushing's syndrome",
+        "Addison's disease",
+        "Goitre",
+        "Growth hormone disorders",
+        "Insulin resistance"
+      ],
+      "specialties": [
+        "Endocrinologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 8,
+      "name": "Gastroenterology",
+      "conditions": [
+        "Gastritis",
+        "GERD",
+        "Peptic ulcers",
+        "IBS",
+        "IBD",
+        "Crohn's disease",
+        "Ulcerative colitis",
+        "Pancreatitis",
+        "Gallstones",
+        "Celiac disease"
+      ],
+      "specialties": [
+        "Gastroenterologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 9,
+      "name": "Hepatology",
+      "conditions": [
+        "Fatty liver disease",
+        "Liver cirrhosis",
+        "Hepatitis",
+        "Liver fibrosis",
+        "Liver failure",
+        "Jaundice",
+        "Alcohol-related liver disease",
+        "Liver abscess",
+        "Autoimmune hepatitis",
+        "Portal hypertension"
+      ],
+      "specialties": [
+        "Hepatologist",
+        "Gastroenterologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 10,
+      "name": "Pulmonology",
+      "conditions": [
+        "Asthma",
+        "Pneumonia",
+        "Bronchitis",
+        "COPD",
+        "Pulmonary tuberculosis",
+        "Pulmonary fibrosis",
+        "Lung infections",
+        "Sleep apnea",
+        "Pleural effusion",
+        "Pulmonary embolism"
+      ],
+      "specialties": [
+        "Pulmonologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 11,
+      "name": "Neurology",
+      "conditions": [
+        "Migraine",
+        "Epilepsy",
+        "Stroke",
+        "Parkinson's disease",
+        "Alzheimer's disease",
+        "Multiple sclerosis",
+        "Meningitis",
+        "Encephalitis",
+        "Peripheral neuropathy",
+        "Sciatica"
+      ],
+      "specialties": [
+        "Neurologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 12,
+      "name": "Dermatology",
+      "conditions": [
+        "Eczema",
+        "Psoriasis",
+        "Acne",
+        "Fungal infections",
+        "Bacterial skin infections",
+        "Vitiligo",
+        "Urticaria",
+        "Dermatitis",
+        "Scabies",
+        "Skin cancer"
+      ],
+      "specialties": [
+        "Dermatologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 13,
+      "name": "Hematology",
+      "conditions": [
+        "Anemia",
+        "Iron deficiency",
+        "Vitamin B12 deficiency",
+        "Thalassemia",
+        "Sickle cell disease",
+        "Leukemia",
+        "Lymphoma",
+        "Hemophilia",
+        "Thrombocytopenia",
+        "Clotting disorders"
+      ],
+      "specialties": [
+        "Hematologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 14,
+      "name": "Oncology",
+      "conditions": [
+        "Breast cancer",
+        "Lung cancer",
+        "Prostate cancer",
+        "Cervical cancer",
+        "Colorectal cancer",
+        "Stomach cancer",
+        "Liver cancer",
+        "Blood cancer",
+        "Pancreatic cancer",
+        "Thyroid cancer"
+      ],
+      "specialties": [
+        "Oncologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 15,
+      "name": "Urology",
+      "conditions": [
+        "Urinary tract infections",
+        "Kidney stones",
+        "Bladder stones",
+        "Benign prostatic hyperplasia",
+        "Prostatitis",
+        "Urinary incontinence",
+        "Bladder infection",
+        "Urethral stricture",
+        "Bladder cancer",
+        "Erectile dysfunction"
+      ],
+      "specialties": [
+        "Urologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 16,
+      "name": "Gynecology",
+      "conditions": [
+        "PCOS",
+        "Endometriosis",
+        "Uterine fibroids",
+        "Ovarian cysts",
+        "Pelvic inflammatory disease",
+        "Menstrual disorders",
+        "Cervical abnormalities",
+        "Vaginal infections",
+        "Menopause-related disorders",
+        "Adenomyosis"
+      ],
+      "specialties": [
+        "Gynecologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 17,
+      "name": "Obstetrics",
+      "conditions": [
+        "Gestational diabetes",
+        "Preeclampsia",
+        "Ectopic pregnancy",
+        "Miscarriage",
+        "Placental disorders",
+        "Pregnancy-related anemia",
+        "Fetal growth restriction",
+        "Preterm labor",
+        "Pregnancy-related hypertension",
+        "Rh incompatibility"
+      ],
+      "specialties": [
+        "Obstetrician"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 18,
+      "name": "Rheumatology",
+      "conditions": [
+        "Rheumatoid arthritis",
+        "Lupus",
+        "Gout",
+        "Ankylosing spondylitis",
+        "Sjögren's syndrome",
+        "Psoriatic arthritis",
+        "Vasculitis",
+        "Systemic sclerosis",
+        "Polymyositis",
+        "Reactive arthritis"
+      ],
+      "specialties": [
+        "Rheumatologist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 19,
+      "name": "Dentistry",
+      "conditions": [
+        "Dental cavities",
+        "Gum disease",
+        "Gingivitis",
+        "Periodontitis",
+        "Tooth abscess",
+        "Tooth fractures",
+        "Oral cancer",
+        "Impacted wisdom teeth",
+        "Tooth sensitivity",
+        "Oral infections"
+      ],
+      "specialties": [
+        "Dentist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 20,
+      "name": "Psychiatry",
+      "conditions": [
+        "Depression",
+        "Anxiety disorders",
+        "Bipolar disorder",
+        "Schizophrenia",
+        "OCD",
+        "PTSD",
+        "Panic disorder",
+        "Eating disorders",
+        "Insomnia",
+        "ADHD"
+      ],
+      "specialties": [
+        "Psychiatrist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 21,
+      "name": "Immunology",
+      "conditions": [
+        "Primary immunodeficiency",
+        "Allergic disorders",
+        "Food allergies",
+        "Drug allergies",
+        "Anaphylaxis",
+        "Autoimmune disorders",
+        "Immunoglobulin deficiencies",
+        "Immune thrombocytopenia",
+        "Complement deficiencies",
+        "Immune dysfunction"
+      ],
+      "specialties": [
+        "Immunologist",
+        "Allergist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 22,
+      "name": "Pediatrics",
+      "conditions": [
+        "Childhood anemia",
+        "Childhood asthma",
+        "Childhood pneumonia",
+        "Nutritional deficiencies",
+        "Childhood diabetes",
+        "Congenital heart conditions",
+        "Childhood infections",
+        "Growth disorders",
+        "Childhood thyroid disorders",
+        "Developmental disorders"
+      ],
+      "specialties": [
+        "Pediatrician"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 23,
+      "name": "Geriatrics",
+      "conditions": [
+        "Age-related osteoporosis",
+        "Dementia",
+        "Alzheimer's disease",
+        "Frailty",
+        "Hearing loss",
+        "Vision loss",
+        "Urinary incontinence",
+        "Malnutrition",
+        "Balance disorders",
+        "Multiple chronic conditions"
+      ],
+      "specialties": [
+        "Geriatrician"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 24,
+      "name": "Nutrition And Metabolic Disorders",
+      "conditions": [
+        "Vitamin D deficiency",
+        "Vitamin B12 deficiency",
+        "Iron deficiency",
+        "Calcium deficiency",
+        "Obesity",
+        "Malnutrition",
+        "Electrolyte imbalance",
+        "Hyperlipidemia",
+        "Metabolic syndrome",
+        "Protein deficiency"
+      ],
+      "specialties": [
+        "Dietitian",
+        "Relevant treating specialist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    },
+    {
+      "id": 25,
+      "name": "Emergency And Critical Care",
+      "conditions": [
+        "Severe dehydration",
+        "Sepsis",
+        "Heart attack",
+        "Stroke",
+        "Severe allergic reactions",
+        "Respiratory failure",
+        "Internal bleeding",
+        "Severe trauma",
+        "Shock",
+        "Poisoning"
+      ],
+      "specialties": [
+        "Emergency medicine specialist"
+      ],
+      "source_basis": "User-provided initial taxonomy; routing vocabulary only, not a clinical reference.",
+      "knowledge_status": "taxonomy_only"
+    }
+  ]
+}

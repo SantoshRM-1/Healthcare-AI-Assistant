@@ -7,7 +7,7 @@ import uuid
 from sqlalchemy import text
 
 from app.core.config import settings
-from app.db.session import SessionFactory, engine
+from app.db.session import SessionFactory
 from app.services.report_processing import process_report
 
 logging.basicConfig(level=logging.INFO)
@@ -83,8 +83,8 @@ async def run() -> None:
             except Exception:
                 logger.exception("Report worker iteration failed")
                 await asyncio.sleep(5)
-    finally:
-        await engine.dispose()
+    except asyncio.CancelledError:
+        raise
 
 
 if __name__ == "__main__":

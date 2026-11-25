@@ -14,13 +14,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.auth import Principal, get_principal
 from app.core.config import settings
 from app.db.session import get_session
-from app.models.chat import ChatSession
 from app.models.message import Message
 from app.models.session_memory import RecommendationRecord
 from app.models.uploaded_report import UploadedReport
 from app.repositories.users import get_or_create_user
 from app.schemas.platform import EmailShareRequest, EmailShareResponse, HospitalRecommendationRequest, HospitalRecommendationResponse, VoiceTranscriptionResponse
-from app.services.chat_export import create_pdf, plain_text, safe_filename
+from app.services.chat_export import PDFUnicodeFontError, create_pdf, plain_text, safe_filename
 from app.services.chats import owned_chat
 from app.services.email_sharing import send_chat_email
 from app.services.hospital_recommendations import recommend_hospitals
@@ -110,6 +109,8 @@ async def export_pdf(chat_id: UUID, principal: Principal = Depends(get_principal
     chat, messages, reports, recommendations = await _export_data(chat_id, principal, session)
     try:
         content = await asyncio.to_thread(create_pdf, chat, messages, reports, recommendations)
+    except PDFUnicodeFontError as exc:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, str(exc)) from exc
     except Exception as exc:
         logger.exception("PDF export failed for chat %s", chat.id)
         raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "PDF export is temporarily unavailable") from exc

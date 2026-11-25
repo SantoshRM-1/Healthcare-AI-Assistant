@@ -28,7 +28,14 @@ async def upload_report(data: bytes, public_id: str, resource_type: str) -> dict
 
 async def create_private_download_url(public_id: str, resource_type: str, file_type: str) -> str:
     configure_cloudinary()
-    extension = "pdf" if file_type == "application/pdf" else file_type.split("/")[-1]
+    extension = {
+        "application/pdf": "pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
+        "text/plain": "txt",
+        "text/markdown": "md",
+        "application/json": "json",
+        "text/csv": "csv",
+    }.get(file_type, file_type.split("/")[-1])
     return await asyncio.to_thread(
         partial(
             utils.private_download_url,

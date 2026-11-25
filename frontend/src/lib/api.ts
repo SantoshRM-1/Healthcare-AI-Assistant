@@ -4,6 +4,7 @@ export async function api<T>(path: string, token: string, init?: RequestInit): P
   if (!token) throw new Error("Your session is not ready. Please sign in again and retry.");
   const response = await fetch(`${base}${path}`, { ...init, headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...init?.headers }, cache: "no-store" });
   if (!response.ok) {
+    if (response.status === 401) throw new Error("Your session expired or is invalid. Please sign in again, then retry.");
     let message = `Request failed (${response.status})`;
     try {
       const body: unknown = await response.json();

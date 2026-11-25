@@ -12,9 +12,17 @@ class Citation(BaseModel):
     excerpt: str
 
 
+class ChatLocation(BaseModel):
+    city: str = Field(min_length=2, max_length=120)
+    region: str | None = Field(default=None, max_length=120)
+    location: str | None = Field(default=None, max_length=240)
+    postal_code: str | None = Field(default=None, max_length=16)
+
+
 class AIChatRequest(BaseModel):
     session_id: UUID
     question: str = Field(min_length=1, max_length=8_000)
+    location: ChatLocation | None = None
 
 
 class LanguageModeRequest(BaseModel):
@@ -36,6 +44,11 @@ class RecommendationItem(BaseModel):
     title: str
     detail: str
     category: str = "general"
+    supporting_information: list[str] = Field(default_factory=list)
+    next_step: str | None = None
+    safety_considerations: list[str] = Field(default_factory=list)
+    uncertainties: list[str] = Field(default_factory=list)
+    related_specialty: str | None = None
 
 
 class RecommendationResponse(BaseModel):
@@ -43,6 +56,7 @@ class RecommendationResponse(BaseModel):
     recommendations: list[RecommendationItem]
     sources: list["Citation"]
     disclaimer: str
+    medical_sources: list[dict] = Field(default_factory=list)
 
 
 class DoctorRecommendationResponse(BaseModel):
@@ -50,6 +64,7 @@ class DoctorRecommendationResponse(BaseModel):
     specialists: list[RecommendationItem]
     sources: list["Citation"]
     disclaimer: str
+    medical_sources: list[dict] = Field(default_factory=list)
 
 
 class SessionMemoryResponse(BaseModel):

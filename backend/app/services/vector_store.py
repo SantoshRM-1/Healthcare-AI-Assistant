@@ -2,8 +2,9 @@ import asyncio
 import logging
 import time
 import uuid
+from collections.abc import Awaitable, Callable
 from functools import lru_cache
-from typing import Any, Awaitable, Callable
+from typing import Any
 
 import chromadb
 import numpy as np
@@ -12,6 +13,7 @@ from google.genai import types
 from app.core.config import settings
 from app.services.gemini import gemini_async_client
 from app.services.report_chunking import chunk_report
+from app.services.medical_query import rerank_retrieval_results
 
 COLLECTION_NAME = "medassist_report_chunks_v1"
 logger = logging.getLogger(__name__)
@@ -57,6 +59,11 @@ async def _embed(texts: list[str], task_type: str, title: str | None = None) -> 
     if len(vectors) != len(texts):
         raise RuntimeError("Gemini returned an incomplete embedding batch")
     return vectors
+
+
+async def generate_embeddings(texts: list[str], task_type: str = "RETRIEVAL_DOCUMENT", title: str | None = None) -> list[list[float]]:
+    """Shared embedding boundary for separately stored report and knowledge collections."""
+    return await _embed(texts, task_type, title)
 
 
 async def index_report(
@@ -114,13 +121,18 @@ async def delete_report_vectors(report_id: uuid.UUID) -> None:
     await asyncio.to_thread(collection().delete, where={"report_id": str(report_id)})
 
 
+def report_retrieval_filter(user_id: uuid.UUID, session_id: uuid.UUID) -> dict[str, Any]:
+    """Build the mandatory ownership and active-chat filter for report retrieval."""
+    return {"$and": [{"user_id": str(user_id)}, {"session_id": str(session_id)}]}
+
+
 async def retrieve_chunks(user_id: uuid.UUID, session_id: uuid.UUID, question: str) -> list[dict[str, Any]]:
     query_vector = (await _embed([question], "QUESTION_ANSWERING"))[0]
-    where = {"$and": [{"user_id": str(user_id)}, {"session_id": str(session_id)}]}
+    where = report_retrieval_filter(user_id, session_id)
     found = await asyncio.to_thread(
         collection().query,
         query_embeddings=[query_vector],
-        n_results=settings.rag_top_k,
+        n_results=min(max(settings.rag_top_k * 3, settings.rag_top_k), 30),
         where=where,
         include=["documents", "metadatas", "distances"],
     )
@@ -133,7 +145,12 @@ async def retrieve_chunks(user_id: uuid.UUID, session_id: uuid.UUID, question: s
         if distance is None or float(distance) > settings.rag_max_cosine_distance:
             continue
         results.append({"id": chunk_id, "text": document, "metadata": metadata, "distance": float(distance)})
-    return results
+    return rerank_retrieval_results(
+        results,
+        question,
+        limit=settings.rag_top_k,
+        max_distance=settings.rag_max_cosine_distance,
+    )
 
 
 def make_citations(documents: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -141,12 +158,19 @@ def make_citations(documents: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for document in documents:
         meta = document["metadata"]
         excerpt = " ".join(document["text"].split())
+        page_value = meta.get("page")
+        try:
+            page = int(page_value) if page_value not in (None, "") else None
+        except (TypeError, ValueError):
+            page = None
+        if page == 0:
+            page = None
         citations.append(
             {
                 "report_id": meta["report_id"],
                 "report_name": meta["report_name"],
                 "section": meta["section"],
-                "page": int(meta.get("page", 0)) or None,
+                "page": page,
                 "excerpt": excerpt[-900:],
             }
         )

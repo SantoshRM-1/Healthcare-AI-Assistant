@@ -11,15 +11,10 @@ logger = logging.getLogger(__name__)
 
 async def get_or_create_user(session: AsyncSession, principal: Principal) -> User:
     statement = select(User).where(User.clerk_id == principal.clerk_id)
-    logger.info(
-        "get_or_create_user executing statement=%s clerk_user_id=%s in_transaction=%s",
-        statement,
-        principal.clerk_id,
-        session.in_transaction(),
-    )
+    logger.debug("get_or_create_user executing query in_transaction=%s", session.in_transaction())
     user = await session.scalar(statement)
     if user is None:
-        logger.info("get_or_create_user no row found; creating clerk_user_id=%s", principal.clerk_id)
+        logger.info("get_or_create_user creating local user row")
         user = User(clerk_id=principal.clerk_id, email=principal.email, full_name=principal.full_name)
         session.add(user)
     else:
@@ -30,9 +25,7 @@ async def get_or_create_user(session: AsyncSession, principal: Principal) -> Use
             user.full_name = principal.full_name
     await session.flush()
     logger.info(
-        "get_or_create_user flushed clerk_user_id=%s db_user_id=%s session_active=%s in_transaction=%s",
-        principal.clerk_id,
-        user.id,
+        "get_or_create_user flushed local user row session_active=%s in_transaction=%s",
         session.is_active,
         session.in_transaction(),
     )

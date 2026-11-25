@@ -13,25 +13,28 @@ from app.core.errors import install_error_handlers
 from app.db.session import engine
 from app.services.voice_transcription import warm_whisper_model
 from app.workers.reports import run as run_report_worker
+from app.workers.medical_knowledge import run as run_knowledge_worker
 
 logger = logging.getLogger(__name__)
 
 
-def _report_worker_finished(task: asyncio.Task) -> None:
+def _background_worker_finished(task: asyncio.Task) -> None:
+    task_name = task.get_name()
     if task.cancelled():
-        logger.info("REPORT WORKER STOPPED reason=application_shutdown")
+        logger.info("BACKGROUND WORKER STOPPED task_name=%s reason=application_shutdown", task_name)
         return
     error = task.exception()
     if error:
-        logger.error("REPORT WORKER TASK EXITED unexpectedly", exc_info=(type(error), error, error.__traceback__))
+        logger.error("BACKGROUND WORKER TASK EXITED unexpectedly task_name=%s", task_name, exc_info=(type(error), error, error.__traceback__))
     else:
-        logger.error("REPORT WORKER TASK EXITED unexpectedly without an exception")
+        logger.error("BACKGROUND WORKER TASK EXITED unexpectedly without an exception task_name=%s", task_name)
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     warm_task = None
     report_worker_task = None
+    knowledge_worker_task = None
     try:
         async with engine.begin() as conn:
             await conn.execute(text("SELECT 1"))
@@ -46,15 +49,18 @@ async def lifespan(_: FastAPI):
 
         warm_task = asyncio.create_task(warm_models(), name="warm-ai-models")
         report_worker_task = asyncio.create_task(run_report_worker(), name="report-queue-worker")
-        report_worker_task.add_done_callback(_report_worker_finished)
+        report_worker_task.add_done_callback(_background_worker_finished)
         logger.info("REPORT WORKER TASK STARTED task_name=report-queue-worker")
+        knowledge_worker_task = asyncio.create_task(run_knowledge_worker(), name="medical-knowledge-worker")
+        knowledge_worker_task.add_done_callback(_background_worker_finished)
+        logger.info("MEDICAL KNOWLEDGE WORKER TASK STARTED task_name=medical-knowledge-worker")
     except Exception:
         logger.exception("Database health check failed during app startup")
         raise
     try:
         yield
     finally:
-        tasks = [task for task in (warm_task, report_worker_task) if task and not task.done()]
+        tasks = [task for task in (warm_task, report_worker_task, knowledge_worker_task) if task and not task.done()]
         for task in tasks:
             task.cancel()
         if tasks:
